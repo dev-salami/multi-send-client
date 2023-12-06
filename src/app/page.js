@@ -1,11 +1,11 @@
-"use client";
-
-import { ConnectWallet } from "@thirdweb-dev/react";
+import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 
 export default function ConnectButton() {
   return (
     <>
-      <ConnectWallet />
+      <Navbar />
+      <Header />
     </>
   );
 }
