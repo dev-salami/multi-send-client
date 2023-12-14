@@ -14,7 +14,7 @@ function Header() {
             </span>
             <div className="border-b-2  w-12 block"></div>
           </div>
-          <div className="text-4xl md:text-6xl  font-semibold leading-tight">
+          <div className="text-4xl sm:text-5xl lg:text-6xl  font-semibold leading-tight">
             Lorem ipsum dolor sit amet consectetur adipisicing.
           </div>
           <p>
