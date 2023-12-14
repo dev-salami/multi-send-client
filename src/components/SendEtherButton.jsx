@@ -1,8 +1,12 @@
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/constant";
 import { ethers } from "ethers";
-import React from "react";
+import React, { useState } from "react";
+import TransactionSuccess from "./Success";
 
 function SendEtherButton({ AddressList, AmountList, totalAmount }) {
+  const [msg, setMsg] = useState("");
+  const [TransactionHash, setTransactionHash] = useState("");
+
   function hasEmptyString(arr) {
     // Check if any element in the array is an empty string
     if (arr.length === 0) {
@@ -20,6 +24,7 @@ function SendEtherButton({ AddressList, AmountList, totalAmount }) {
     }
   }
   const SendBulkETH = async () => {
+    console.log(totalAmount, AmountList);
     try {
       if (!window.ethereum) {
         console.log("Install Metamask");
@@ -35,42 +40,40 @@ function SendEtherButton({ AddressList, AmountList, totalAmount }) {
         signer
       );
       const functionName = "bulkSendEth";
-      // const functionArgs = [
-      //   ["0x37eA8D8FA57a4ab5AE28d4b7F8703934200478a4"],
-      //   [1],
-      // ];
+
       const functionArgs = [AddressList, AmountList];
-      // console.log(functionArgs);
-      //   const recipientAddress = ethers.utils.getAddress(address);
+
       const Transaction = await Contract[functionName](
         ...functionArgs,
 
         {
-          value: ethers.utils.parseEther(totalAmount.toString()) / 1e18,
+          value: totalAmount.toString(),
         }
       );
       const txHash = await Transaction.wait();
       console.log(txHash.transactionHash);
-      //  const tx = await signer.sendTransaction({
-      //    // to: recipientAddress,
-      //    to: "0x37eA8D8FA57a4ab5AE28d4b7F8703934200478a4",
-
-      //    value: ethers.utils.parseEther(ether),
-      //  });
+      setTransactionHash(txHash.transactionHash);
+      setMsg("success");
     } catch (error) {
-      console.error("Error in Start Payment:", error);
+      window.alert("Something went wrong !");
+
+      console.error("Error in Start Payment:", error.message);
     }
   };
   return (
-    <button
-      disabled={hasEmptyString(AddressList) || hasEmptyValue(AmountList)}
-      className=" bg-black disabled:bg-red-500 text-white w-full font-semibold py-1 px-3 rounded-md"
-      onClick={() => {
-        SendBulkETH();
-      }}
-    >
-      Send ETH
-    </button>
+    <>
+      {" "}
+      <button
+        disabled={hasEmptyString(AddressList) || hasEmptyValue(AmountList)}
+        className=" bg-black disabled:bg-red-500 text-white w-full font-semibold py-1 px-3 rounded-md"
+        onClick={() => {
+          SendBulkETH();
+        }}
+      >
+        Send ETH
+      </button>
+      <>{msg === "success" && <TransactionSuccess hash={TransactionHash} />}</>
+    </>
   );
 }
 

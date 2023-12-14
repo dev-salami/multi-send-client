@@ -1,7 +1,8 @@
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/constant";
 import { useContract } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-import React from "react";
+import React, { useState } from "react";
+import TransactionSuccess from "./Success";
 
 function SendTokenButton({
   AddressList,
@@ -10,8 +11,10 @@ function SendTokenButton({
   totalToken_Amount,
   fee,
 }) {
+  const [msg, setMsg] = useState("");
+  const [TransactionHash, setTransactionHash] = useState("");
+
   function hasEmptyString(arr) {
-    // Check if any element in the array is an empty string
     if (arr.length === 0) {
       return false;
     } else {
@@ -19,7 +22,6 @@ function SendTokenButton({
     }
   }
   function hasEmptyValue(arr) {
-    // Check if any element in the array is an empty string
     if (arr.length === 0) {
       return false;
     } else {
@@ -58,22 +60,29 @@ function SendTokenButton({
           value: ethers.utils.parseEther(fee.toString()),
         }
       );
-      const txHash = await Transaction.wait();
+      const txHash = await Transaction.wait(1);
+      setTransactionHash(txHash.transactionHash);
+      setMsg("success");
       console.log(txHash.transactionHash);
     } catch (error) {
+      window.alert("Something went wrong !");
       console.error("Error in Start Payment:", error);
     }
   };
   return (
-    <button
-      disabled={hasEmptyString(AddressList) || hasEmptyValue(tokenAmountList)}
-      className=" bg-black disabled:bg-red-500 text-white w-full font-semibold py-1 px-3 rounded-md"
-      onClick={() => {
-        SendBulkToken();
-      }}
-    >
-      Send Token
-    </button>
+    <>
+      <button
+        disabled={hasEmptyString(AddressList) || hasEmptyValue(tokenAmountList)}
+        className=" bg-black disabled:bg-red-500 text-white w-full font-semibold py-1 px-3 rounded-md"
+        onClick={() => {
+          SendBulkToken();
+        }}
+      >
+        Send Token
+      </button>
+      {/* <TransactionSuccess /> */}
+      <>{msg === "success" && <TransactionSuccess hash={TransactionHash} />}</>
+    </>
   );
 }
 
