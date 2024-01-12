@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { FaPoll } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import SendEtherButton from "./SendEtherButton";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
-import { ethers } from "ethers";
 
 const SendEther = ({
   ETHAddress,
@@ -27,8 +25,8 @@ const SendEther = ({
       !isLoadingEthSendFee
     ) {
       const fee = ethSendFee.toNumber() * ETHAddress.length;
-      const value = ETH_Amount.reduce((acc, cur) => cur + acc);
-      let total = fee + value;
+      const value = ETH_Amount.reduce((acc, cur) => Number(cur) + Number(acc));
+      let total = fee + Number(value);
       console.log({ fee: fee, value: value, total: total });
       total = Number(total);
       setETH_Total(total);
@@ -61,30 +59,31 @@ const SendEther = ({
     const newaddress = [...ETHAddress];
     newaddress[index] = event.target.value;
     setETHAddress(newaddress);
+    console.log(ETHAddress);
   };
   const handleETHAmountChange = (index, event) => {
     const newamount = [...ETH_Amount];
-    newamount[index] = Number(event.target.value) * 1e18;
+    newamount[index] = (event.target.value * 1e18).toString();
     setETH_Amount(newamount);
   };
 
   return (
     <div className="flex flex-col gap-1">
       <div>
-        {ETHAddress.map((field, index) => (
+        {ETHAddress.map((data, index) => (
           <div key={index} className="flex gap-4 items-center mb-2">
             <input
               type="text"
               className="border border-black rounded-md py-1 px-2 text-gray-900 w-full"
               placeholder="Enter Address"
-              value={field.value}
+              value={data}
               onChange={(e) => handleETHAddressChange(index, e)}
             />
             <input
               type="number"
               className="border border-black rounded-md py-1 px-2 text-gray-900 w-full"
               placeholder="Enter Amount"
-              value={field.value}
+              value={data}
               onChange={(e) => handleETHAmountChange(index, e)}
             />
             <button
@@ -109,9 +108,11 @@ const SendEther = ({
             AmountList={ETH_Amount}
             totalAmount={ETH_Total}
           />
-          <div>{`${ETH_Amount.reduce((acc, cur) => cur + acc) / 1e18} ETH TO ${
-            ETHAddress.length
-          } ${ETHAddress.length === 1 ? "Address" : "Addresses"} `}</div>
+          <div>{`${
+            ETH_Amount.reduce((acc, cur) => Number(cur) + Number(acc)) / 1e18
+          } ETH TO ${ETHAddress.length} ${
+            ETHAddress.length === 1 ? "Address" : "Addresses"
+          } `}</div>
           <div>{`Transaction Fee : ${
             isLoadingEthSendFee ? 0 : (ethSendFee * ETHAddress.length) / 1e18
           } ETH `}</div>
