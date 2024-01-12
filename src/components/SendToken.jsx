@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import {
   useAddress,
   useContract,
   useContractRead,
-  useContractWrite,
   useTokenBalance,
 } from "@thirdweb-dev/react";
 import Loader from "./Loader";
@@ -152,7 +151,7 @@ const SendToken = ({
           <>{}</>
         </div>
         {!tokenSendFeeLoading && (
-          <div>{`Transaction Fee :  ${
+          <div className="mt-2">{`Transaction Fee :  ${
             tokenSendFee * TokenAddress.length
           }`}</div>
         )}
