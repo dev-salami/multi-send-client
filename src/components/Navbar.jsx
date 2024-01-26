@@ -10,8 +10,10 @@ function Navbar() {
         <div className=" hidden sm:flex text-sm uppercase  w-1/2 justify-between">
           <Link href="/">Home</Link>
           <Link href="/send">Send</Link>
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/transactions">History</Link>
+          {/* <Link href="/pricing">Pricing</Link>
+          <Link href="/transactions">History</Link> */}
+          <button>Pricing</button>
+          <button>History</button>
 
           <div></div>
         </div>
