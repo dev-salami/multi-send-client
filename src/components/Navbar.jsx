@@ -12,8 +12,9 @@ function Navbar() {
           <Link href="/send">Send</Link>
           {/* <Link href="/pricing">Pricing</Link>
           <Link href="/transactions">History</Link> */}
-          <button>Pricing</button>
-          <button>History</button>
+          <button className="uppercase">Pricing</button>
+          <Link href="/transactions">History</Link>
+          <button className="uppercase">History</button>
 
           <div></div>
         </div>
