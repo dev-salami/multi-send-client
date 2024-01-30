@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { T3Provider } from "@/context/T3Provider";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <T3Provider>{children}</T3Provider>
+        <T3Provider>
+          <Navbar />
+          {children}
+        </T3Provider>
       </body>
     </html>
   );

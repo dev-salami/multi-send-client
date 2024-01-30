@@ -55,7 +55,6 @@ function Page() {
 
   return (
     <div>
-      <Navbar />
       <main className="max-w-3xl border rounded-xl p-4 mx-auto mt-8">
         <div className="  flex flex-col items-center text-sm mb-2    gap-3">
           <div className="flex gap-4">
