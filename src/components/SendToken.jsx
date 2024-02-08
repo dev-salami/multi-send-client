@@ -39,11 +39,13 @@ const SendToken = ({
       TokenAddress.length > 0 &&
       !tokenSendFeeLoading
     ) {
-      const value = Token_Amount.reduce((acc, cur) => cur + acc);
+      const value = Token_Amount.reduce(
+        (acc, cur) => Number(cur) + Number(acc)
+      );
 
       setTotalToken_Amount(Number(value) / 1e18);
 
-      console.log({ value: value, total: Token_Amount });
+      console.log({ value: totalToken_Amount, total: Token_Amount });
     }
   };
 
@@ -113,14 +115,14 @@ const SendToken = ({
               type="text"
               className="border border-black rounded-md py-1 px-2 text-gray-900 w-full"
               placeholder="Enter Address"
-              value={field.value}
+              value={field}
               onChange={(e) => handleTokenAddressChange(index, e)}
             />
             <input
               type="number"
               className="border border-black rounded-md py-1 px-2 text-gray-900 w-full"
               placeholder="Enter Amount"
-              value={field.value}
+              value={String(Token_Amount[index] / 1e18)}
               onChange={(e) => handleTokenAmountChange(index, e)}
             />
             <button
@@ -148,18 +150,27 @@ const SendToken = ({
             totalToken_Amount={totalToken_Amount}
             fee={(Number(tokenSendFee) * TokenAddress.length) / 1e18}
           />
-          <>{}</>
+          <div>
+            <span>Total Token</span> <span> : </span>
+            <span>
+              {totalToken_Amount} {tokenBalance?.symbol}
+            </span>
+          </div>
         </div>
         {!tokenSendFeeLoading && (
           <div className="mt-2">{`Transaction Fee :  ${
             tokenSendFee * TokenAddress.length
           }`}</div>
         )}
-        <p>
-          Note : This contract was deployed on sepolia testnets, It only work
-          with tokens deployed on the sepolia testnet. If you wish to test with
-          my token (KSA Token) Get some test token HERE
-        </p>
+        <>
+          {tokenBalance?.symbol === "KSA" && (
+            <p>
+              Note : This contract was deployed on sepolia testnets, It only
+              work with TOKENS deployed on the sepolia testnet. If you wish to
+              test with my token (KSA Token) Get some test token HERE
+            </p>
+          )}
+        </>
       </div>
     </div>
   );
