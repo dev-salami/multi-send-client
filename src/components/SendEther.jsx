@@ -43,6 +43,7 @@ const SendEther = ({
   };
 
   const handleRemoveETHAddress = (index) => {
+    console.log(index);
     if (ETHAddress.length > 1) {
       const newaddress = [...ETHAddress];
       newaddress.splice(index, 1);
@@ -59,7 +60,6 @@ const SendEther = ({
     const newaddress = [...ETHAddress];
     newaddress[index] = event.target.value;
     setETHAddress(newaddress);
-    console.log(ETHAddress);
   };
   const handleETHAmountChange = (index, event) => {
     const newamount = [...ETH_Amount];
@@ -83,7 +83,7 @@ const SendEther = ({
               type="number"
               className="border border-black rounded-md py-1 px-2 text-gray-900 w-full"
               placeholder="Enter Amount"
-              value={data}
+              value={String(ETH_Amount[index] / 1e18)}
               onChange={(e) => handleETHAmountChange(index, e)}
             />
             <button
