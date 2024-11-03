@@ -7,7 +7,7 @@ import Send from "./_components/Send";
 import { TransactionType } from "./Types";
 import SuccessTab from "./_components/SuccessTab";
 
-function page() {
+function SendPage() {
   const [tab, setTab] = useState("form");
   const [tokenContractAddress, setTokenContractAddress] = useState<
     string | null
@@ -73,4 +73,4 @@ function page() {
   );
 }
 
-export default page;
+export default SendPage;
