@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { T3Provider } from "@/context/T3Provider";
-import Navbar from "@/components/Navbar";
+import { T3Provider } from "../context/T3Provider";
+import { Navbar } from "../components/Navbar";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,10 +14,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} min-h-screen from-[#091a86] via-[#091251] to-[#091a86] bg-gradient-to-r`}
+      >
         <T3Provider>
           <Navbar />
           {children}
+          <Toaster
+            position="top-center"
+            visibleToasts={1}
+            richColors={true}
+            pauseWhenPageIsHidden={true}
+          />
         </T3Provider>
       </body>
     </html>
